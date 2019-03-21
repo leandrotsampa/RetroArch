@@ -164,10 +164,21 @@ static unsigned input_unify_ev_key_code(unsigned code)
       so unify remote control keysyms to keyboard keysyms here.  */
    switch (code)
    {
+      case KEY_BACK:
+      case KEY_EXIT:
+         return KEY_BACKSPACE;
+      case KEY_MENU:
+         return KEY_F1;
+      case KEY_MUTE:
+         return KEY_F9;
       case KEY_OK:
          return KEY_ENTER;
-      case KEY_BACK:
-         return KEY_BACKSPACE;
+      case KEY_POWER:
+         return KEY_ESC;
+      case KEY_VOLUMEDOWN:
+         return KEY_KPMINUS;
+      case KEY_VOLUMEUP:
+         return KEY_KPPLUS;
       default:
          return code;
    }

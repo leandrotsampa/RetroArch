@@ -51,6 +51,14 @@
 #endif
 #endif
 
+#if defined(HAVE_OPENGLES3)
+#include <GLES3/gl32.h>
+#elif defined(HAVE_OPENGLES)
+#include <GLES2/gl2ext.h>
+#else
+#include <GL/glext.h>
+#endif
+
 static const struct video_ortho gl_core_default_ortho = {0, 1, 0, 1, -1, 1};
 
 static void gl_core_deinit_fences(gl_core_t *gl)

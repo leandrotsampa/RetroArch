@@ -1,0 +1,48 @@
+include version.all
+
+ALT_VER := $(shell echo $(RARCH_VERSION) | tr . _)
+MODS_VER := Official_Retroarch_v$(ALT_VER)
+MODS_NAME := RetroArch v$(RARCH_VERSION) (Official Optimised)
+VERSION := $(RARCH_VERSION)
+MOD_CREATOR := leandrotsampa
+MOD_CATEGORY := RetroArch
+GIT_COMMIT := $(shell echo "`git rev-parse --short HEAD``git diff-index --quiet HEAD -- || echo '-dirty'`")
+
+# General Shared Variables ############
+TARGET := retroarch
+
+# Libretro Defines ####################
+#HAVE_NEON = Enable NEON support
+
+all: $(TARGET)
+
+retroarch:
+	CFLAGS="-march=armv8-a+crc -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=softfp" ./configure --host=arm-linux-gnueabi --prefix=/usr --bindir=/usr/bin --sysconfdir=/etc --mandir=/usr/share/man --enable-xmb --enable-menu_widgets --enable-libusb --enable-alsa --enable-egl --disable-opengl1 --enable-opengles --enable-opengles3 --enable-mali_fbdev --enable-threads --enable-thread_storage --disable-ffmpeg --disable-x11 --disable-pulse --disable-oss --disable-qt --disable-sdl --disable-sdl2 --disable-wayland
+	make HAVE_NEON=1 -j$(nproc --all)
+	arm-linux-gnueabi-strip -v retroarch
+
+	@echo "*********************************************************************"
+	@echo "***             ARM Cortex A53 build as successfully!             ***"
+	@echo "****************** Winner, Winner, Chicken Dinner! ******************"
+	@echo "*********************************************************************"
+
+clean:
+	rm -rf obj-unix
+	rm -f *.d
+	rm -f *.o
+	rm -f audio/*.o
+	rm -f conf/*.o
+	rm -f gfx/*.o
+	rm -f gfx/drivers_font/*.o
+	rm -f gfx/drivers_font_renderer/*.o
+	rm -f gfx/drivers_context/*.o
+	rm -f gfx/py_state/*.o
+	rm -f compat/*.o
+	rm -f record/*.o
+	rm -f input/*.o
+	rm -f tools/*.o
+	rm -f $(BINDIR)/retroarch
+	rm -f $(BINDIR)/retroarch-joyconfig
+	rm -f $(PNDDIR)/readme.html
+	rm -f retroarch
+
