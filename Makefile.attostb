@@ -17,7 +17,7 @@ TARGET := retroarch
 all: $(TARGET)
 
 retroarch:
-	CFLAGS="-march=armv8-a+crc -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=softfp" ./configure --host=arm-linux-gnueabi --prefix=/usr --bindir=/usr/bin --sysconfdir=/etc --mandir=/usr/share/man --enable-xmb --enable-menu_widgets --enable-libusb --enable-alsa --enable-egl --disable-opengl1 --enable-opengles --enable-opengles3 --enable-mali_fbdev --enable-threads --enable-thread_storage --enable-ffmpeg --disable-x11 --disable-pulse --disable-oss --disable-qt --disable-sdl --disable-sdl2 --disable-wayland
+	CFLAGS="-march=armv7ve -mtune=cortex-a53 -mfpu=neon-vfpv4 -mvectorize-with-neon-quad" ./configure --host=arm-linux-gnueabi --prefix=/usr --bindir=/usr/bin --sysconfdir=/etc --mandir=/usr/share/man --enable-xmb --enable-menu_widgets --enable-libusb --enable-alsa --enable-egl --disable-opengl1 --enable-opengles --enable-opengles3 --enable-mali_fbdev --enable-threads --enable-thread_storage --enable-ffmpeg --disable-x11 --disable-pulse --disable-oss --disable-qt --disable-sdl --disable-sdl2 --disable-wayland
 	make HAVE_NEON=1
 	arm-linux-gnueabi-strip -v retroarch
 
